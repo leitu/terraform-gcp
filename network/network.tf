@@ -6,6 +6,8 @@ variable "vpc_name" {}
 variable "subnet_name" {}
 variable "region" {}
 variable "ip_cidr_range" {}
+variable "zone" {}
+variable "nat_name" {}
 
 # Create Vnet
 module "vpc" {
@@ -15,7 +17,6 @@ module "vpc" {
 }
 
 # Create Subnet
-
 module "subnet" {
     source = "./subnet"
 
@@ -26,9 +27,20 @@ module "subnet" {
 
 }
 
+# Create firewall
 module "firewall" {
     source = "./firewall"
     subnet_name = "${module.vpc.vpc_name}"
+    subnet_ip_cidr = "${var.ip_cidr_range}"
+}
+
+# Create route
+module "route" {
+    source = "./route"
+    vpc_network = "${module.vpc.vpc_name}"
+    #nat_server_name = "nat-gateway"
+    nat_server_name = "${var.nat_name}"
+    nat_server_zone = "${var.zone}"
 }
 
 output "vpc_name" {

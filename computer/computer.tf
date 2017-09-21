@@ -8,9 +8,9 @@ variable zone {}
 variable subnetwork {}
 
 module "nat" {
-    source = "./single"
+    source = "./nat-gateway"
 
-    name = "nat-server"
+    name = "nat-gateway"
     type = "${var.type}"
     zone = "${var.zone}"
     #network = "${var.network}"
@@ -25,6 +25,10 @@ module "shared" {
     type = "${var.type}"
     zone = "${var.zone}"
     subnetwork = "${var.subnetwork}"
-    tag = "test"
+    # The tag means network tag or the others was label
+    tag = "nat-route"
 }
 
+output "nat_name" {
+    value = "${module.nat.nat_name}"
+}

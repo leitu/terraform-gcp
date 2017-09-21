@@ -3,6 +3,7 @@
 #--------------------------------------------------------------
 
 variable subnet_name {}
+variable subnet_ip_cidr {}
 
 resource "google_compute_firewall" "firewall-internal" {
   name    = "network-allow-internal"
@@ -26,7 +27,8 @@ resource "google_compute_firewall" "firewall-internal" {
   }
 
   # Source Tags is related to filter
-  # source_tags = ["IP ranges: 0.0.0.0/0"]
+  #source_tags = ["test-asia-northeast1"]
+  source_ranges = ["${var.subnet_ip_cidr}"]
 }
 
 resource "google_compute_firewall" "firewall-ssh" {

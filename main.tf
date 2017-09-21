@@ -34,6 +34,8 @@ module "network" {
   subnet_name = "${var.subnet_name}"
   ip_cidr_range = "${var.ip_cidr_range}"
   region = "${var.region}"
+  zone = "${var.zone}"
+  nat_name = "${module.computer.nat_name}"
 }
 
 # Computer
@@ -57,4 +59,8 @@ output "subnet_name" {
 }
 output "subnet_self_link" {
   value = "${module.network.subnet_self_link}"
+}
+
+output "nat_name" {
+    value = "${module.computer.nat_name}"
 }
