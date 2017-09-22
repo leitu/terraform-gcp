@@ -2,11 +2,8 @@
 # This module creates all resources necessary for a firewall
 #--------------------------------------------------------------
 
-variable subnet_name {}
-variable subnet_ip_cidr {}
-
 resource "google_compute_firewall" "firewall-internal" {
-  name    = "network-allow-internal"
+  name    = "${var.subnet_name}-allow-internal"
   network = "${var.subnet_name}"
 
   # Priority will be add later
@@ -26,13 +23,12 @@ resource "google_compute_firewall" "firewall-internal" {
       ports = ["1-65535"]
   }
 
-  # Source Tags is related to filter
-  #source_tags = ["test-asia-northeast1"]
   source_ranges = ["${var.subnet_ip_cidr}"]
+  target_tags   = ["allow-internal"]
 }
 
 resource "google_compute_firewall" "firewall-ssh" {
-  name    = "network-allow-ssh"
+  name    = "${var.subnet_name}-allow-ssh"
   network = "${var.subnet_name}"
 
   # Priority will be add later
@@ -43,6 +39,7 @@ resource "google_compute_firewall" "firewall-ssh" {
     ports = ["22"]
   }
 
-  # Source Tags is related to filter
-  # source_tags = ["IP ranges: 0.0.0.0/0"]
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["allow-ssh"]
+
 }
