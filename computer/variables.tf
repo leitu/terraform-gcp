@@ -17,6 +17,9 @@ variable zone {
   default     = ""
 }
 
+variable ip_cidr_range {
+
+}
 variable tags {
   description = "Additional compute instance network tags to apply route to."
   type        = "list"

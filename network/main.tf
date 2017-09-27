@@ -22,7 +22,7 @@ module "subnet" {
 # Create firewall
 module "firewall" {
     source = "./firewall"
-    
+    region = "${var.region}"
     subnet_name = "${module.vpc.vpc_name}"
     subnet_ip_cidr = "${var.ip_cidr_range}"
 }

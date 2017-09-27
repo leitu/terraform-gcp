@@ -43,3 +43,14 @@ resource "google_compute_firewall" "firewall-ssh" {
   target_tags   = ["allow-ssh"]
 
 }
+
+
+resource "google_compute_firewall" "nat-gateway" {
+  name    = "nat-${var.region}"
+  network = "${var.subnet_name}"
+
+  allow {
+    protocol = "all"
+  }
+  source_tags = "${compact(concat(list("nat-${var.region}")))}"
+}

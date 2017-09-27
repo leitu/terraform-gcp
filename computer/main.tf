@@ -52,7 +52,29 @@ module "test-server" {
   compute_image     = "debian-cloud/debian-8"
   size              = 1
   #network_ip        = "${var.ip == "" ? lookup(var.region_params["${var.region}"], "ip") : var.ip}"
+  #network_ip         = "10.240.0.3"
+  network_ip         = "${cidrhost("${var.ip_cidr_range}", 3)}"
   #can_ip_forward    = "true"
   #startup_script    = "${data.template_file.nat-startup-script.rendered}"
   access_config     = []
+  target_tags        = ["nat-${var.region}","allow-service"]
+}
+
+
+resource "null_resource" "something" {
+  depends_on = ["module.test-server"]
+ provisioner "remote-exec" {
+  connection {
+    bastion_host = "${google_compute_address.default.address}"
+    bastion_user = "testuser"
+    bastion_private_key = "${file("xyz.pem")}"
+    host = "${cidrhost("${var.ip_cidr_range}", 3)}"
+    user = "alex.lei.tu"
+    private_key = "${file("xyz.pem")}"
+
+  }
+  inline = [
+    "echo hello"
+  ]
+}
 }

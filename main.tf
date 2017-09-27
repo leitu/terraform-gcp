@@ -22,4 +22,5 @@ module "computer" {
   network = "${var.vpc_name}"
   region = "${var.region}"
   subnetwork = "${module.network.subnet_name}"
+  ip_cidr_range = "${var.ip_cidr_range}"
 }
