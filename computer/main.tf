@@ -8,7 +8,7 @@ EOF
 }
 
 module "nat-gateway" {
-  source            = "./instance-group"
+  source            = "./instancer_group"
   region            = "${var.region}"
   zone              = "${var.zone == "" ? lookup(var.region_params["${var.region}"], "zone") : var.zone}"
   network           = "${var.network}"
@@ -42,7 +42,7 @@ resource "google_compute_address" "default" {
 
 
 module "test-server" {
-  source            = "./instance-group"
+  source            = "./instance_group"
   region            = "${var.region}"
   zone              = "${var.zone == "" ? lookup(var.region_params["${var.region}"], "zone") : var.zone}"
   network           = "${var.network}"
